@@ -436,7 +436,25 @@ html.Div([
         html.Br(),
             html.Div(id='prediction_table_new'),
 
-            html.Br()
+            html.Br(),
+
+            html.Button('Reset', id='button', style={'background-color': '#355681',
+                                                    'color':'white',
+                                                    'textAlign': 'center',
+                                                    'text-shadow': '0 -1px rgba(0,0,0,0.6)',
+                                                    'border':'px solid #fff',
+                                                    'border-radius':'0 10px 0 10px',
+                                                    'box-shadow':'inset 0 0 5px rgba(53,86,129, 0.5)',
+                                                    'line-height':'30px',
+                                                    'position':'relative',
+                                                    'font-weight':'normal',
+                                                    'font-family':'Multi, sans-serif',
+                                                    'font-size': '15px',
+                                                    'margin': '0.8em 0 0.5em 0'},
+                        ),
+
+
+
             ], className='seven columns'),
 
         ])
@@ -536,6 +554,66 @@ html.Div([
 
 
 
+def reset_table(n_clicks):
+    df_table = pd.DataFrame(columns=['Country', 'Matches', 'Won', 'Lost', 'Tie','Points'])
+
+    teams_table = {}
+    response = requests.get(points_table)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    table = soup.find_all('table', class_='standings has-team-logos')[0]
+    teams = table.find_all('tr', class_='standings-row')
+    count = 0
+    for team in teams:
+        name = team.find_all('span', class_='team-names')[0].text
+        matches = int(team.find_all('td')[1].text)
+        won = int(team.find_all('td')[2].text)
+        lost = int(team.find_all('td')[3].text)
+        tie = int(team.find_all('td')[4].text)
+        no_result = int(team.find_all('td')[5].text)
+        point = int(team.find_all('td')[6].text)
+        df_table.loc[count] = {'Country': name, 'Matches': matches, 'Won': won, 'Lost': lost, 'Tie': tie,
+                         'Points': point}
+        count += 1
+
+    # Update into local dict
+        teams_table[name] = {'Matches': matches, 'Won': won, 'Lost': lost, 'Tie': tie, 'Points': point}
+
+
+    return dt.DataTable(
+                columns=[{"name": i, "id": i} for i in df_table.columns],
+                data=df_table.to_dict("rows"),
+                     row_selectable=False,
+                     filtering=False,
+                     sorting=True,
+                     style_table={
+                        'maxHeight': '400px',
+                         'maxWidth': 'auto',
+                        'overflowY': 'auto',
+                        'border': 'thin lightgrey solid'
+                    },
+                    style_cell={
+                              'textAlign': 'center',
+                                  'fontSize':15,
+                                  'width': '100px',
+                                  'fontWeight': 'bold'
+                                  },
+                    style_header={
+                        'fontWeight': 'bold',
+                        'fontSize':20,
+                    },
+
+                    style_cell_conditional = [
+                        {
+                            'if': {'row_index': 'odd'},
+                            'backgroundColor': 'rgb(248, 248, 248)'
+                        }],
+                       )
+
+
+
+
+
+
 def reduce_points(teams, n):
 
     teams_table[teams[0]]['Matches'] = int(teams_table[teams[0]]['Matches']) - 1
@@ -573,9 +651,27 @@ def add_points(teams, n, radio_item):
             teams_table[team]['Matches'] = int(teams_table[team]['Matches']) + 1
 
 
+@app.callback([Output('fixtures1', 'value'), Output('fixtures2','value'), Output('fixtures3','value'),
+               Output('fixtures4', 'value'), Output('fixtures5','value'), Output('fixtures6','value'),
+               Output('fixtures7', 'value'), Output('fixtures8','value'), Output('fixtures9','value'),
+               Output('fixtures10', 'value'), Output('fixtures11','value'), Output('fixtures12','value'),
+               Output('fixtures13', 'value'), Output('fixtures14','value'), Output('fixtures15','value'),
+               Output('fixtures16', 'value'), Output('fixtures17','value'), Output('fixtures18','value'),
+               Output('fixtures19', 'value'), Output('fixtures20','value'), Output('fixtures21','value'),
+               Output('fixtures22', 'value'), Output('fixtures23','value'), Output('fixtures24','value'),
+               Output('fixtures25', 'value'), Output('fixtures26','value'), Output('fixtures27','value'),
+               Output('fixtures28', 'value'), Output('fixtures29','value')],
+              [Input('button','n_clicks')])
+def reset_radios(n_click):
+    list_ = []
+    for x in range(0,29):
+        list_.append('Radio')
+
+    return list_
+
 
 @app.callback(Output('prediction_table_new','children'),
-              [Input('fixtures1', 'value'),Input('fixtures2', 'value'),Input('fixtures3', 'value')
+              [Input('button', 'n_clicks'), Input('fixtures1', 'value'),Input('fixtures2', 'value'),Input('fixtures3', 'value')
                ,Input('fixtures4', 'value'),Input('fixtures5', 'value'),Input('fixtures6', 'value')
                ,Input('fixtures7', 'value'),Input('fixtures8', 'value'),Input('fixtures9', 'value')
                ,Input('fixtures10', 'value'),Input('fixtures11', 'value'),Input('fixtures12', 'value')
@@ -585,7 +681,7 @@ def add_points(teams, n, radio_item):
                Input('fixtures22', 'value'),Input('fixtures23', 'value'),Input('fixtures24', 'value'),
                Input('fixtures25', 'value'),Input('fixtures26', 'value'),Input('fixtures27', 'value'),
                Input('fixtures28', 'value'),Input('fixtures29', 'value')])
-def get_prediction_table(radio_item1, radio_item2, radio_item3, radio_item4,
+def get_prediction_table(n_clicks, radio_item1, radio_item2, radio_item3, radio_item4,
                          radio_item5, radio_item6, radio_item7, radio_item8,
                          radio_item9, radio_item10, radio_item11, radio_item12,
                          radio_item13, radio_item14, radio_item15, radio_item16,
@@ -593,6 +689,9 @@ def get_prediction_table(radio_item1, radio_item2, radio_item3, radio_item4,
                          radio_item21, radio_item22, radio_item23, radio_item24,
                          radio_item25, radio_item26, radio_item27, radio_item28,
                          radio_item29):
+    if n_clicks:
+        return reset_table(n_clicks)
+
 
 
     df = pd.DataFrame(columns=['Country','Matches', 'Won', 'Lost', 'Tie', 'Points'])
@@ -909,7 +1008,7 @@ def get_prediction_table(radio_item1, radio_item2, radio_item3, radio_item4,
     df = df.sort_values(by='Points', axis=0, ascending=False)
 
 
-    return dt.DataTable(
+    table = dt.DataTable(
                         columns=[{"name": i, "id": i} for i in df.columns],
                         data=df.to_dict("rows"),
                              row_selectable=False,
@@ -938,6 +1037,8 @@ def get_prediction_table(radio_item1, radio_item2, radio_item3, radio_item4,
                                     'backgroundColor': 'rgb(248, 248, 248)'
                                 }],
                         )
+
+    return table
 
 
 
