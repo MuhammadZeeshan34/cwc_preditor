@@ -663,11 +663,10 @@ def add_points(teams, n, radio_item):
                Output('fixtures28', 'value'), Output('fixtures29','value')],
               [Input('button','n_clicks')])
 def reset_radios(n_click):
-    list_ = []
-    for x in range(0,29):
-        list_.append('Radio')
+    
+    return 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio'
 
-    return list_
+
 
 
 @app.callback(Output('prediction_table_new','children'),
