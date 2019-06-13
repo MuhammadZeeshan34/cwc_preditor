@@ -392,17 +392,10 @@ html.Div([
                        value='Radio',
                        labelStyle={'display': 'inline-block'}),
 
-        dcc.RadioItems(id='fixtures29',
-                       options=[
-                           {'label': matches_list[28][0], 'value': matches_list[28][0]},
-                           {'label': matches_list[28][1], 'value': matches_list[28][1]},
-                           {'label': 'Tie or Rain', 'value': 'tie'}
-                       ],
-                       value='Radio',
-                       labelStyle={'display': 'inline-block'}),
-
                 html.Br()
             ], className='three columns'),
+
+
 
 
 
@@ -665,11 +658,11 @@ def add_points(teams, n, radio_item):
                Output('fixtures19', 'value'), Output('fixtures20','value'), Output('fixtures21','value'),
                Output('fixtures22', 'value'), Output('fixtures23','value'), Output('fixtures24','value'),
                Output('fixtures25', 'value'), Output('fixtures26','value'), Output('fixtures27','value'),
-               Output('fixtures28', 'value'), Output('fixtures29','value')],
+               Output('fixtures28', 'value')],
               [Input('button','n_clicks')])
 def reset_radios(n_click):
     
-    return 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio'
+    return 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio'
 
 
 
@@ -684,15 +677,15 @@ def reset_radios(n_click):
                Input('fixtures19', 'value'),Input('fixtures20', 'value'),Input('fixtures21', 'value'),
                Input('fixtures22', 'value'),Input('fixtures23', 'value'),Input('fixtures24', 'value'),
                Input('fixtures25', 'value'),Input('fixtures26', 'value'),Input('fixtures27', 'value'),
-               Input('fixtures28', 'value'),Input('fixtures29', 'value')])
+               Input('fixtures28', 'value')])
 def get_prediction_table(n_clicks, radio_item1, radio_item2, radio_item3, radio_item4,
                          radio_item5, radio_item6, radio_item7, radio_item8,
                          radio_item9, radio_item10, radio_item11, radio_item12,
                          radio_item13, radio_item14, radio_item15, radio_item16,
                          radio_item17, radio_item18, radio_item19, radio_item20,
                          radio_item21, radio_item22, radio_item23, radio_item24,
-                         radio_item25, radio_item26, radio_item27, radio_item28,
-                         radio_item29):
+                         radio_item25, radio_item26, radio_item27, radio_item28
+                         ):
     if n_clicks:
         return reset_table(n_clicks)
 
@@ -991,15 +984,7 @@ def get_prediction_table(n_clicks, radio_item1, radio_item2, radio_item3, radio_
 
         add_points(teams, n, radio_item)
 
-    if radio_item29 != 'Radio':
-        n = 28
-        radio_item = radio_item29
-        teams = matches_list[n]
 
-        if states[n] != False:  # Reduce the amount of matches as coming again
-            reduce_points(teams, n)
-
-        add_points(teams, n, radio_item)
     count = 0
     for team in teams_table:
 
