@@ -616,7 +616,7 @@ def reduce_points(teams, n):
 
     teams_table[teams[0]]['Matches'] = int(teams_table[teams[0]]['Matches']) - 1
     teams_table[teams[1]]['Matches'] = int(teams_table[teams[1]]['Matches']) - 1
-    if states[n] == 'Tie':
+    if states[n] == 'Tie' or states[n] == 'tie':
         teams_table[teams[0]]['Tie'] = int(teams_table[teams[0]]['Tie']) - 1
         teams_table[teams[1]]['Tie'] = int(teams_table[teams[1]]['Tie']) - 1
         teams_table[teams[0]]['Points'] = int(teams_table[teams[0]]['Points']) - 1
@@ -633,7 +633,7 @@ def reduce_points(teams, n):
 
 def add_points(teams, n, radio_item):
     for team in teams:
-        if radio_item == 'Tie':
+        if radio_item == 'Tie' or radio_item == 'tie':
             states[n] = radio_item
             teams_table[team]['Tie'] = int(teams_table[team]['Tie']) + 1
             teams_table[team]['Points'] = int(teams_table[team]['Points']) + 1
