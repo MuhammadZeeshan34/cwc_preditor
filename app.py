@@ -63,11 +63,16 @@ for team in teams:
 response = requests.get(fixtures)
 soup = BeautifulSoup(response.content, 'html.parser')
 matches = soup.find_all('div', class_='cscore cscore--pregame cricket cscore--watchNotes')
+live_matches = soup.find_all('div', class_='cscore cscore--live cricket cscore--watchNotes')
+matches = live_matches + matches
 matches_list = []
 for match in matches:
     team1 = match.find_all('span', 'cscore_name cscore_name--long')[0].text
     team2 = match.find_all('span', 'cscore_name cscore_name--long')[1].text
     matches_list.append((team1, team2))
+
+
+server = app.server
 
 
 server = app.server
