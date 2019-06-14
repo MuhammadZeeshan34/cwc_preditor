@@ -377,23 +377,7 @@ html.Div([
                        value='Radio',
                        labelStyle={'display': 'inline-block'}),
 
-        dcc.RadioItems(id='fixtures27',
-                       options=[
-                           {'label': matches_list[26][0], 'value': matches_list[26][0]},
-                           {'label': matches_list[26][1], 'value': matches_list[26][1]},
-                           {'label': 'Tie or Rain', 'value': 'tie'}
-                       ],
-                       value='Radio',
-                       labelStyle={'display': 'inline-block'}),
 
-        dcc.RadioItems(id='fixtures28',
-                       options=[
-                           {'label': matches_list[27][0], 'value': matches_list[27][0]},
-                           {'label': matches_list[27][1], 'value': matches_list[27][1]},
-                           {'label': 'Tie or Rain', 'value': 'tie'}
-                       ],
-                       value='Radio',
-                       labelStyle={'display': 'inline-block'}),
 
                 html.Br()
             ], className='three columns'),
@@ -453,6 +437,7 @@ html.Div([
                                                     'font-size': '15px',
                                                     'margin': '0.8em 0 0.5em 0'},
                         ),
+            html.P('To reset table, first click here then refresh the page')
 
 
 
@@ -711,12 +696,11 @@ def get_table():
                Output('fixtures16', 'value'), Output('fixtures17','value'), Output('fixtures18','value'),
                Output('fixtures19', 'value'), Output('fixtures20','value'), Output('fixtures21','value'),
                Output('fixtures22', 'value'), Output('fixtures23','value'), Output('fixtures24','value'),
-               Output('fixtures25', 'value'), Output('fixtures26','value'), Output('fixtures27','value'),
-               Output('fixtures28', 'value')],
+               Output('fixtures25', 'value'), Output('fixtures26','value')],
               [Input('button','n_clicks')])
 def reset_radios(n_click):
 
-    return 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio'
+    return 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio', 'Radio', 'Radio', 'Radio','Radio'
 
 
 
@@ -730,15 +714,14 @@ def reset_radios(n_click):
                ,Input('fixtures16', 'value'),Input('fixtures17', 'value'),Input('fixtures18', 'value'),
                Input('fixtures19', 'value'),Input('fixtures20', 'value'),Input('fixtures21', 'value'),
                Input('fixtures22', 'value'),Input('fixtures23', 'value'),Input('fixtures24', 'value'),
-               Input('fixtures25', 'value'),Input('fixtures26', 'value'),Input('fixtures27', 'value'),
-               Input('fixtures28', 'value')], [State('button','value')])
+               Input('fixtures25', 'value'),Input('fixtures26', 'value')], [State('button','value')])
 def get_prediction_table(n_clicks, radio_item1, radio_item2, radio_item3, radio_item4,
                          radio_item5, radio_item6, radio_item7, radio_item8,
                          radio_item9, radio_item10, radio_item11, radio_item12,
                          radio_item13, radio_item14, radio_item15, radio_item16,
                          radio_item17, radio_item18, radio_item19, radio_item20,
                          radio_item21, radio_item22, radio_item23, radio_item24,
-                         radio_item25, radio_item26, radio_item27, radio_item28, state
+                         radio_item25, radio_item26,  state
                          ):
     _matches = [radio_item1, radio_item2, radio_item3, radio_item4,
                          radio_item5, radio_item6, radio_item7, radio_item8,
@@ -746,7 +729,7 @@ def get_prediction_table(n_clicks, radio_item1, radio_item2, radio_item3, radio_
                          radio_item13, radio_item14, radio_item15, radio_item16,
                          radio_item17, radio_item18, radio_item19, radio_item20,
                          radio_item21, radio_item22, radio_item23, radio_item24,
-                         radio_item25, radio_item26, radio_item27, radio_item28]
+                         radio_item25, radio_item26]
 
     if n_clicks != None:
         return reset_table(n_clicks)
@@ -1030,25 +1013,7 @@ def get_prediction_table(n_clicks, radio_item1, radio_item2, radio_item3, radio_
 
         add_points(teams, n, radio_item)
 
-    if radio_item27 != 'Radio':
-        n = 26
-        radio_item = radio_item27
-        teams = matches_list[n]
 
-        if states[n] != False:  # Reduce the amount of matches as coming again
-            reduce_points(teams, n)
-
-        add_points(teams, n, radio_item)
-
-    if radio_item28 != 'Radio':
-        n = 27
-        radio_item = radio_item28
-        teams = matches_list[n]
-
-        if states[n] != False:  # Reduce the amount of matches as coming again
-            reduce_points(teams, n)
-
-        add_points(teams, n, radio_item)
 
 
     count = 0
