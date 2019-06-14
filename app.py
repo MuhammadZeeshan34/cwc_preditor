@@ -55,12 +55,12 @@ for team in teams:
     tie = int(team.find_all('td')[4].text)
     no_result = int(team.find_all('td')[5].text)
     point = int(team.find_all('td')[6].text)
-    df_table.loc[count] = {'Country': name, 'Matches': matches, 'Won': won, 'Lost': lost, 'Tie': tie,
+    df_table.loc[count] = {'Country': name, 'Matches': matches, 'Won': won, 'Lost': lost, 'Tie': tie + no_result,
                      'Points': point}
     count += 1
 
     # Update into local dict
-    teams_table[name] = {'Matches': matches, 'Won': won, 'Lost': lost, 'Tie': tie, 'Points': point}
+    teams_table[name] = {'Matches': matches, 'Won': won, 'Lost': lost, 'Tie': tie + no_result, 'Points': point}
 
 
 response = requests.get(fixtures)
@@ -437,7 +437,13 @@ html.Div([
                                                     'font-size': '15px',
                                                     'margin': '0.8em 0 0.5em 0'},
                         ),
-            html.P('To reset table, first click here then refresh the page')
+            html.P('To reset table, first click here then refresh the page'),
+
+            html.Br(),
+
+            html.Br(),
+            html.Label(['Feedbacks -> ', html.A('Facebook', href='https://www.facebook.com/xeeshan.nawax')])
+
 
 
 
@@ -561,12 +567,12 @@ def reset_table(n_clicks):
         tie = int(team.find_all('td')[4].text)
         no_result = int(team.find_all('td')[5].text)
         point = int(team.find_all('td')[6].text)
-        dfc_table.loc[count] = {'Country': name, 'Matches': matches, 'Won': won, 'Lost': lost, 'Tie': tie,
+        dfc_table.loc[count] = {'Country': name, 'Matches': matches, 'Won': won, 'Lost': lost, 'Tie': tie + no_result,
                          'Points': point}
         count += 1
 
     # Update into local dict
-        teams_table[name] = {'Matches': matches, 'Won': won, 'Lost': lost, 'Tie': tie, 'Points': point}
+        teams_table[name] = {'Matches': matches, 'Won': won, 'Lost': lost, 'Tie': tie + no_result, 'Points': point}
 
 
     return dt.DataTable(
